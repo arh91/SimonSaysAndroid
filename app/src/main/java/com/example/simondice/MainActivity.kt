@@ -29,11 +29,11 @@ class MainActivity : AppCompatActivity() {
         ordenJugador = IntArray(4)
         numeros = IntArray(4)
         botones = arrayOfNulls(4)
-        iniciar = findViewById(R.id.bplay) as Button?
-        botones[0] = findViewById(R.id.bazul) as Button?
-        botones[1] = findViewById(R.id.brojo)  as Button?
-        botones[2] = findViewById(R.id.bverde) as Button?
-        botones[3] = findViewById(R.id.bamarillo) as Button?
+        iniciar = findViewById(R.id.playButton) as Button?
+        botones[0] = findViewById(R.id.blueButton) as Button?
+        botones[1] = findViewById(R.id.redButton)  as Button?
+        botones[2] = findViewById(R.id.greenButton) as Button?
+        botones[3] = findViewById(R.id.yellowButton) as Button?
         sonido = arrayOfNulls(4)
         sonido[0] = MediaPlayer.create(this, R.raw.moneda)
         sonido[1] = MediaPlayer.create(this, R.raw.saltolargo)
@@ -41,19 +41,19 @@ class MainActivity : AppCompatActivity() {
         sonido[3] = MediaPlayer.create(this, R.raw.ladrilloroto)
     }
 
-    fun clickar(v: View) {
+    fun clickarBoton(v: View) {
         val indice: Int
         val id = v.id
         val b = v as Button
-        indice = if (id == R.id.bazul) {
+        indice = if (id == R.id.blueButton) {
             v.setBackgroundResource(R.color.azulfuerte)
             sonido[0]!!.start()
             0
-        } else if (id == R.id.brojo) {
+        } else if (id == R.id.redButton) {
             v.setBackgroundResource(R.color.rojofuerte)
             sonido[1]!!.start()
             1
-        } else if (id == R.id.bverde) {
+        } else if (id == R.id.greenButton) {
             v.setBackgroundResource(R.color.verdefuerte)
             sonido[2]!!.start()
             2
@@ -68,28 +68,28 @@ class MainActivity : AppCompatActivity() {
             ordenJugador[botonesPulsados] = indice
             botonesPulsados++
             if (botonesPulsados == 4) {
-                check()
+                comprobarSecuencia()
             }
         }
     }
 
-    fun iniciar(v: View?) {
+    fun iniciarPartida(v: View?) {
         enabledPlay = true
         for (i in numeros.indices) {
             numeros[i] = (Math.random() * 4).toInt()
             val b = botones[numeros[i]]
             println(numeros[i])
-            if (b!!.id == R.id.bazul) {
+            if (b!!.id == R.id.blueButton) {
                 retardo1.postDelayed({
                     b.setBackgroundResource(R.color.azulfuerte)
                     sonido[0]!!.start()
                 }, tiempoEncendido.toLong())
-            } else if (b.id == R.id.brojo) {
+            } else if (b.id == R.id.redButton) {
                 retardo1.postDelayed({
                     b.setBackgroundResource(R.color.rojofuerte)
                     sonido[1]!!.start()
                 }, tiempoEncendido.toLong())
-            } else if (b.id == R.id.bverde) {
+            } else if (b.id == R.id.greenButton) {
                 retardo1.postDelayed({
                     b.setBackgroundResource(R.color.verdefuerte)
                     sonido[2]!!.start()
@@ -109,27 +109,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun resetear(id: Int) {
-        if (id == R.id.bazul) {
+        if (id == R.id.blueButton) {
             botones[0]!!.setBackgroundResource(R.color.azul)
-        } else if (id == R.id.brojo) {
+        } else if (id == R.id.redButton) {
             botones[1]!!.setBackgroundResource(R.color.rojo)
-        } else if (id == R.id.bverde) {
+        } else if (id == R.id.greenButton) {
             botones[2]!!.setBackgroundResource(R.color.verde)
         } else {
             botones[3]!!.setBackgroundResource(R.color.amarillo)
         }
     }
 
-    fun check() {
+    fun comprobarSecuencia() {
         var acertados = 0
         for (i in numeros.indices) {
             if (numeros[i] != ordenJugador[i]) {
-                Toast.makeText(this, "Has perdido", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Lo siento, has fallado.", Toast.LENGTH_SHORT).show()
             } else {
                 acertados++
             }
             if (acertados == 4) {
-                Toast.makeText(this, "Has ganado", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Enhorabuena, has acertado!", Toast.LENGTH_SHORT).show()
             }
             enabledPlay = false
             botonesPulsados = 0
